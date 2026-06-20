@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Cell } from 'recharts';
 import { Activity, AlertOctagon, Clock, Navigation } from 'lucide-react';
 
@@ -12,8 +13,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:8000/api/summary'),
-      axios.get('http://localhost:8000/api/metrics')
+      axios.get(`${API_BASE}/api/summary`),
+      axios.get(`${API_BASE}/api/metrics`)
     ]).then(([summaryRes, metricsRes]) => {
       setData(summaryRes.data);
       setMetrics(metricsRes.data);

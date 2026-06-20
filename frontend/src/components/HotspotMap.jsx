@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -47,7 +48,7 @@ const HotspotMap = () => {
   const [viewMode, setViewMode] = useState('both'); // both, markers, heat
   
   useEffect(() => {
-    let url = 'http://localhost:8000/api/events';
+    let url = `${API_BASE}/api/events`;
     if (filterZone) {
       url += `?zone=${encodeURIComponent(filterZone)}`;
     }
@@ -55,7 +56,7 @@ const HotspotMap = () => {
     
     Promise.all([
       axios.get(url),
-      axios.get('http://localhost:8000/api/heatmap')
+      axios.get(`${API_BASE}/api/heatmap`)
     ]).then(([eventsRes, heatRes]) => {
       setEvents(eventsRes.data);
       setHeatmapData(heatRes.data);

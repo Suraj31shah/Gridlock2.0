@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { ShieldAlert } from 'lucide-react';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -9,7 +10,7 @@ const ZoneRisk = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/zone-risk')
+    axios.get(`${API_BASE}/api/zone-risk`)
       .then(res => {
         setData(res.data);
         setLoading(false);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { Search, Filter, History, ChevronRight } from 'lucide-react';
 
 const EventHistory = () => {
@@ -9,7 +10,7 @@ const EventHistory = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   
   useEffect(() => {
-    axios.get('http://localhost:8000/api/events')
+    axios.get(`${API_BASE}/api/events`)
       .then(res => {
         setEvents(res.data);
         setLoading(false);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { Calculator, AlertTriangle, Clock, ShieldAlert, Car, MapPin, Loader2, Factory, IndianRupee, History } from 'lucide-react';
 import Recommender from './Recommender';
 
@@ -46,7 +47,7 @@ const Predictor = () => {
 
     try {
       const [recRes, simRes] = await Promise.all([
-        axios.post('http://localhost:8000/api/recommend', payload),
+        axios.post(`${API_BASE}/api/recommend`, payload),
         axios.get(`http://localhost:8000/api/similar?cause=${formData.event_cause}&zone=${encodeURIComponent(formData.zone)}`)
       ]);
       setResult(recRes.data);

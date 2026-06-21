@@ -40,6 +40,10 @@ def init_app():
 def startup_event():
     init_app()
 
+@app.get("/")
+def read_root():
+    return {"status": "online", "message": "AstramAI Backend is running", "version": "1.0"}
+
 class PredictRequest(BaseModel):
     event_cause: str
     event_type: str
@@ -115,11 +119,14 @@ def get_events(zone: Optional[str] = None, cause: Optional[str] = None):
     return cleaned
 
 @app.get("/api/heatmap")
-def get_heatmap():
+def get_heatmap(zone: Optional[str] = None):
     if df_events is None or df_events.empty:
         return []
     
     df_valid = df_events.dropna(subset=['latitude', 'longitude'])
+    if zone:
+        df_valid = df_valid[df_valid['zone'] == zone]
+        
     points = df_valid[['latitude', 'longitude']].values.tolist()
     return points
 

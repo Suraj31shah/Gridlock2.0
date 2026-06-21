@@ -5,6 +5,7 @@ from typing import List, Optional, Any
 import pandas as pd
 import numpy as np
 import math
+import os
 
 from data_loader import load_and_preprocess_data
 from ml_model import CongestionImpactPredictor
@@ -16,7 +17,7 @@ app = FastAPI(title="Congestion Intelligence API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -28,7 +29,9 @@ predictor = None
 def init_app():
     global df_events, predictor
     print("Loading and preprocessing data...")
-    df, df_ml = load_and_preprocess_data("../data/Astram_event_data_anonymized.csv")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(base_dir, "..", "data", "Astram_event_data_anonymized.csv")
+    df, df_ml = load_and_preprocess_data(data_path)
     df_events = df
     
     print("Training ML models...")
